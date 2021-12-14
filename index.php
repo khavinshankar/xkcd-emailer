@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/vendor/autoload.php";
 
 use app\Router;
 use app\Database;
 use app\controllers\MainController;
 use app\helpers\DotEnv;
 
-(new DotEnv(__DIR__ . '/../.env'))->load();
+(new DotEnv(__DIR__ . '/.env'))->load();
 $router = new Router();
 new Database();
 

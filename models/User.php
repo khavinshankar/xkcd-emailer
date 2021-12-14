@@ -12,8 +12,9 @@ class User {
 
     public function __construct ($email) {
         $db = Database::$db;
+        $this->email = $email;
         $user = $db->getUser($email);
-        
+
         if($user) {
             $this->load($user);
         } else {
@@ -28,14 +29,14 @@ class User {
     }
 
     public function reset_verification_code () {
+        if ($this->is_verified) return false;
         $this->verification_code = random_int(100000, 999999);
         $this->update();
         return $this->verification_code;
     }
 
-    public function verify ($user_code) {
-        if ($this->is_verified) return true;
-        
+    public function verify($user_code)
+    {
         if (strval($this->verification_code) === $user_code) {
             return $this->mark_verified();
         }
@@ -52,6 +53,5 @@ class User {
     public function update () {
         $db = Database::$db;
         $db->updateUser($this);
-        
     }
 }

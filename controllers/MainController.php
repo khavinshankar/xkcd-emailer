@@ -31,9 +31,13 @@ class MainController
         $user = new User($email);
         $otp = $user->reset_verification_code();
 
+        if (!$otp) { // already verified user
+            header("Location: /success");
+            exit;
+        }
 
         $message = "Here is your OTP for email verification<br><h1>$otp</h1></br>Thank you!";
-        send_mail("khavinshankar@gmail.com", "(no reply) XKCD Emailer - Verify your Email", $message);
+        send_mail($email, "(no reply) XKCD Emailer - Verify your Email", $message);
 
         header("Location: /otp?id=$email");
         exit;
