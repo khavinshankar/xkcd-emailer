@@ -54,4 +54,10 @@ class User {
         $db = Database::$db;
         $db->updateUser($this);
     }
+
+    public function verify_delete($otp)
+    {
+        $db = Database::$db;
+        if ($otp === $this->verification_code) $db->deleteUser($this->email);
+    }
 }

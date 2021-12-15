@@ -17,5 +17,6 @@ $router->get("/send-otp", [MainController::class, "send_otp"]);
 $router->get("/otp", [MainController::class, "verify_otp"]);
 $router->post("/otp", [MainController::class, "verify_otp"]);
 $router->get("/success", [MainController::class, "all_done"]);
+$router->get("/unsubscribe", [MainController::class, "unsubscribe"]);
 
 $router->resolve();

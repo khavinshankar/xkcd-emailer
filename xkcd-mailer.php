@@ -34,12 +34,15 @@ function send_comic()
     $db = Database::$db;
     $users = $db->getAllVerifiedUsers();
     [$title, $img] = get_random_xkcd_comic();
+    $app_url = getenv("APP_URL");
 
     foreach ($users as $user) {
+        $email = $user["email"];
+        $otp = $user["verification_code"];
         send_mail(
-            $user["email"],
+            $email,
             "XKCD Emailer -- $title",
-            "<h3>$title</h3></br></br><img src='$img' /></br></br><a href='google.com'>unsubscribe</a>",
+            "<h3>$title</h3></br></br><img src='$img' /></br></br><a href='$app_url/unsubscribe?id=$email&code=$otp'>unsubscribe</a>",
             [["name" => end(explode("/", $img)), "url" => $img]]
         );
     }

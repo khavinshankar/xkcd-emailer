@@ -24,6 +24,18 @@ class MainController
         exit;
     }
 
+    public static function unsubscribe($router)
+    {
+        $email = $_GET["id"];
+        $otp = $_GET["code"];
+
+        $user = new User($email);
+        $user->verify_delete($otp);
+
+        header("Location: /");
+        exit;
+    }
+
     public static function send_otp()
     {
         $email = $_GET["id"];
