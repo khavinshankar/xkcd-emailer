@@ -10,14 +10,17 @@ class DotEnv
     public function __construct(string $path)
     {
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException(sprintf('%s does not exist', $path));
+            $this->path = false;
+            // throw new \InvalidArgumentException(sprintf('%s does not exist', $path));
+        } else {
+            $this->path = $path;
         }
-        $this->path = $path;
     }
 
     public function load(): void
     {
-        if (!is_readable($this->path)) {
+        if (!$this->path or !is_readable($this->path)) {
+            return;
             throw new \RuntimeException(sprintf('%s file is not readable', $this->path));
         }
 
