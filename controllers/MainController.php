@@ -9,19 +9,23 @@ require_once __DIR__ . "/../helpers/mailer.php";
 class MainController
 {
 
-    public static function index($router)
-    {
-        $router->render("subscribe");
-    }
-
     public static function subscribe($router)
     {
-        $email = $_POST["email"];
+        $data = ["is_valid_email" => true];
 
-        new User($email);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST["email"];
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                new User($email);
 
-        header("Location: /send-otp?id=$email");
-        exit;
+                header("Location: /send-otp?id=$email");
+                exit;
+            }
+
+            $data["is_valid_email"] = false;
+        }
+
+        $router->render("subscribe", $data);
     }
 
     public static function unsubscribe($router)

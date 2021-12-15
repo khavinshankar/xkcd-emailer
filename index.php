@@ -11,7 +11,7 @@ use app\helpers\DotEnv;
 $router = new Router();
 new Database();
 
-$router->get("/", [MainController::class, "index"]);
+$router->get("/", [MainController::class, "subscribe"]);
 $router->post("/", [MainController::class, "subscribe"]);
 $router->get("/send-otp", [MainController::class, "send_otp"]);
 $router->get("/otp", [MainController::class, "verify_otp"]);
