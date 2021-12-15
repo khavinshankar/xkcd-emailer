@@ -10,6 +10,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 function send_mail($to, $subject, $message, $attachments = [])
 {
+    ob_start();
     $mail = new PHPMailer(true);
 
     try {
@@ -38,4 +39,5 @@ function send_mail($to, $subject, $message, $attachments = [])
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
+    ob_clean();
 }
