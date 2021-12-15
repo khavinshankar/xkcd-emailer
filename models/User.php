@@ -58,6 +58,8 @@ class User {
     public function verify_delete($otp)
     {
         $db = Database::$db;
-        if ($otp === $this->verification_code) $db->deleteUser($this->email);
+        if (strval($this->verification_code) === $otp) {
+            $db->deleteUser($this->email);
+        }
     }
 }
