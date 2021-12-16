@@ -1,11 +1,12 @@
 <?php
 
+use app\helpers\DotEnv;
+use app\helpers\Mailer;
 use app\Database;
 
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . "/helpers/mailer.php";
 
-
+(new DotEnv(__DIR__ . '/.env'))->load();
 new Database();
 
 function get_random_xkcd_comic()
@@ -33,18 +34,19 @@ function send_comic()
 {
     $db = Database::$db;
     $users = $db->getAllVerifiedUsers();
-    [$title, $img] = get_random_xkcd_comic();
+    [$title, $img_url] = get_random_xkcd_comic();
     $app_url = getenv("APP_URL");
 
     foreach ($users as $user) {
         $email = $user["email"];
         $otp = $user["verification_code"];
-        send_mail(
-            $email,
-            "XKCD Emailer -- $title",
-            "<h3>$title</h3></br></br><img src='$img' /></br></br><a href='$app_url/unsubscribe?id=$email&code=$otp'>unsubscribe</a>",
-            [["name" => end(explode("/", $img)), "url" => $img]]
-        );
+        $subject = "XKCD Emailer -- $title";
+        $body_content = "<h3>$title</h3></br></br><img src='$img_url' /></br></br><a href='$app_url/unsubscribe?id=$email&code=$otp'>unsubscribe</a>";
+
+        $mailer = new Mailer();
+        $mailer->compose($subject, $body_content);
+        $mailer->add_url_attachment($img_url);
+        $mailer->send($email);
     }
 }
 

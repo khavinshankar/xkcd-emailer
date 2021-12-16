@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
+use app\helpers\Mailer;
 use app\models\User;
 
-require_once __DIR__ . "/../helpers/mailer.php";
 
 class MainController
 {
@@ -52,8 +52,12 @@ class MainController
             exit;
         }
 
-        $message = "Here is your OTP for email verification<br><h1>$otp</h1></br>Thank you!";
-        send_mail($email, "(no reply) XKCD Emailer - Verify your Email", $message);
+        $subject = "(no reply) XKCD Emailer - Verify your Email";
+        $body_content = "Here is your OTP for email verification<br><h1>$otp</h1></br>Thank you!";
+
+        $mailer = new Mailer();
+        $mailer->compose($subject, $body_content);
+        $mailer->send($email);
 
         header("Location: /otp?id=$email");
         exit;
