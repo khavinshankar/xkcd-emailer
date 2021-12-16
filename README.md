@@ -14,7 +14,7 @@
 ***get to know all the available APIs in the app and the user flow***
 
 * ####  get /
-This is the default entry path for the application where [`subscribe()`](/controllers/MainController.php "`subscribe()`") function in the main controller is called which renders the [`subscribe.php`](/views/subscribe.php "`subscribe.php`") view, where the user can enter thier email and click on  subscribe which will trigger [`post /`](#post).
+This is the default entry path for the application where [`subscribe()`](/controllers/MainController.php "`subscribe()`") function in the main controller is called which renders the [`subscribe.php`](/views/subscribe.php "`subscribe.php`") view, where the user can enter thier email and click on  subscribe which will trigger [`post /`](#post-).
 
 ![image](https://user-images.githubusercontent.com/29787772/146320551-b405fe62-e69f-4abd-aa3a-3f6a9c309868.png)
 
